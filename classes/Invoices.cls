@@ -1,0 +1,126 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+  Persistable = 0  'NotPersistable
+  DataBindingBehavior = 0  'vbNone
+  DataSourceBehavior  = 0  'vbNone
+  MTSTransactionMode  = 0  'NotAnMTSObject
+END
+Attribute VB_Name = "Invoices"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"No"
+Attribute VB_Ext_KEY = "Collection" ,"Invoice"
+Attribute VB_Ext_KEY = "Member0" ,"Invoice"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
+Option Explicit
+Private oRs As New ADODB.Recordset
+Private oCmd As New ADODB.Command
+Private oConn As New ADODB.Connection
+Private mCol As Collection
+
+Public Function Add(strName As String, strPhone As String, strFax As String, strEmail As String, strOrganizationNumber As String, lngTotalAmount As Currency, bitValid As Boolean) As Invoice
+    Dim lngInvoiceId As Long
+    Dim oTemp As Invoice
+    Set oTemp = New Invoice
+
+    With oTemp
+        .strFirstName = strFirstName
+        .strLastName = strLastName
+        .strCompany = strCompany
+        .strAddress = strAddress
+        .strCity = strCity
+        .strState = strState
+        .strZip = strZip
+        .strPhone = strPhone
+        .strFax = strFax
+        .strEmail = strEmail
+        .strOrganizationNr = strOrganizationNr
+        .strCountry = strCountry
+        .strWebSite = strWebSite
+    End With
+
+  If oConn.State = 0 Then oConn.Open strConnection
+    
+        With oCmd
+            Set .ActiveConnection = oConn
+            .CommandType = adCmdStoredProc
+            .CommandText = "Invoices_Add"
+            .Parameters("@strName") = oTemp.strName
+            .Parameters("@strPhone") = oTemp.strPhone
+            .Parameters("@strFax") = oTemp.strFax
+            .Parameters("@strOrganizationNumber") = oTemp.strOrganizationNumber
+            .Parameters("@lngTotalAmount") = oTemp.lngTotalAmount
+            .Parameters("@bitValid") = oTemp.bitValid
+            .Parameters("@strEmail") = oTemp.strEmail
+            .Execute
+            
+            If Not IsNull(.Parameters("@lngInvoiceId")) Then
+                oTemp.lngCustomerId = .Parameters("@lngInvoiceId")
+                mCol.Add oTemp, CStr(oTemp.lngInvoiceId)
+            Else
+                oTemp.lngInvoiceId = 0
+                Me.lngError = 5 'return the smart error number
+            End If
+        End With
+        
+    If oConn.State = 1 Then oConn.Close
+
+    'return the object created
+    Set Add = oTemp
+    Set oTemp = Nothing
+
+
+End Function
+
+Public Property Get Item(vntIndexKey As Variant) As Invoice
+Attribute Item.VB_UserMemId = 0
+    'used when referencing an element in the collection
+    'vntIndexKey contains either the Index or Key to the collection,
+    'this is why it is declared as a Variant
+    'Syntax: Set foo = x.Item(xyz) or Set foo = x.Item(5)
+  Set Item = mCol(vntIndexKey)
+End Property
+
+
+
+Public Property Get Count() As Long
+    'used when retrieving the number of elements in the
+    'collection. Syntax: Debug.Print x.Count
+    Count = mCol.Count
+End Property
+
+
+Public Sub Remove(vntIndexKey As Variant)
+    'used when removing an element from the collection
+    'vntIndexKey contains either the Index or Key, which is why
+    'it is declared as a Variant
+    'Syntax: x.Remove(xyz)
+
+
+    mCol.Remove vntIndexKey
+End Sub
+
+
+Public Property Get NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
+    'this property allows you to enumerate
+    'this collection with the For...Each syntax
+    Set NewEnum = mCol.[_NewEnum]
+End Property
+
+
+Private Sub Class_Initialize()
+    'creates the collection when this class is created
+    Set mCol = New Collection
+End Sub
+
+
+Private Sub Class_Terminate()
+    'destroys collection when this class is terminated
+    Set mCol = Nothing
+End Sub
+
