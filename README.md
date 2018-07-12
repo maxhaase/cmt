@@ -8,7 +8,7 @@ Upon its creation it was relevant, but then replaced by modern stuff like Linux,
 
 You'll need a VB6 compiler for windows 32 (stone-age junk, including MS-anything) to make it work.
 
-Notice: this is a highly insecure solution (runs on windows).
+Notice: this is a highly insecure solution (runs on windows server/IIS).
 
 Installation instructions coming soon! (year 3000)
 
