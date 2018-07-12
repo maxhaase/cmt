@@ -19,7 +19,7 @@ Private Const REG_OPTION_NON_VOLATILE = 0
 Private Const strRootKey = "SOFTWARE\MAX\DB\"
 
 
-'Fetches registry key
+' Returns the registry key containing the connection string
 Public Function FetchConnectionString(ByVal strPortalId As String) As String
    Dim hKey As Long  ' handle to the SOFTWARE\MAX\DB\
    Dim retval As Long  ' function's return value
@@ -45,8 +45,6 @@ On Error GoTo EH
     Dim retval As Long
     Dim lResult As Long
     
-    'strCon = "Provider=SQLOLEDB.1;Persist Security Info=False;User" & _
-    '"ID=max;Password=wise;Initial Catalog=WISE Core;Data Source=WELLINGTON"
     
     strCon = "Provider=" & objEnv.strProvider & ";" & _
     "Persist Security Info=" & "False" & ";" & _
