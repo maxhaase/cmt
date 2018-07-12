@@ -6,7 +6,7 @@ I used this particular code for selling real-estate, but it can be easily change
 
 Upon its creation it was relevant, but then replaced by modern stuff like Linux, google translate and other AI tools in the 21st century.
 
-You will need a VB6 compiler for windows 32 (stone-age junk, including windows-anything) to make it work.
+You'll need a VB6 compiler for windows 32 (stone-age junk, including MS-anything) to make it work.
 
 Notice: this is a highly insecure solution (runs on windows).
 
