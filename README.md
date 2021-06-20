@@ -19,5 +19,10 @@ You'll need a VB6 compiler for windows 32 (stone-age junk, including MS-anything
 Notice: this is a highly insecure solution (runs on Windows/IIS).
 
 Installation instructions coming soon! (year 3000)
+* Build the dll and register it with windows; then you can use ASP to connect to your Microsoft's SQL database server. 
+* Yes, I know... give more money to Microsoft :-\
+* Also, this is prone to easy SQL injection and session hijacking! 
+* Hey, you said you like windows!!! 
+ 
 
 
